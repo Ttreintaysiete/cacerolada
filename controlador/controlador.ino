@@ -396,9 +396,10 @@ void Play() {
 	 
 	 //BDfreq = analogRead(0);                              // read bass drum density pot
 	 density = map(analogRead(4), 0, 1023, 0, 255);                // remap it to values similar to those in cluster configurations
-	 note = map(analogRead(2), 0, 1023, 0, 127);                // remap it to values similar to those in cluster configurations
-	 tempo = map(analogRead(0), 0, 1023, 1, 1000);                // remap it to values similar to those in cluster configurations
+	 note = map(analogRead(2), 0, 1023, 48, 84);                // remap it to values similar to those in cluster configurations
 	 randVar = map(analogRead(3), 0, 1023, 1, 255);                // remap it to values similar to those in cluster configurations
+	 tempo = map(analogRead(0), 0, 1023, 755-random(0, randVar*2), 20);                // remap it to values similar to those in cluster configurations
+
 	 // SDfreq = analogRead(1);                              // read snare drum density pot
 	 // SDfreq = map(SDfreq, 0, 1023, 0, 255);                // remap it to values similar to those in cluster configurations
 	 // HHfreq = analogRead(2);                              // read hi hat density pot
