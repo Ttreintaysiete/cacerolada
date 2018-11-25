@@ -71,7 +71,7 @@ int play_flag = 0;
 byte data;                               // ^ midi in stuff
 byte led=7;
 byte note=0;
-byte octave=4;
+byte octave=0;
 
 boolean tickSent=false;
 #define VOICE_COUNT 16
@@ -98,6 +98,7 @@ int SDfreq = 0;
 int HHfreq = 0;                          // variables for storing drum density
 
 int density=127;
+int randVar=127;
 int rage=0;
 int tempo=12;
 
@@ -198,8 +199,10 @@ void turnOffAll(byte on){
 			shifter.setPin(i , LOW); //set pin 1 in the chain(second pin) HIGH
 			shifter.write(); //send changes to
 		}else{
-			shifter.setPin(i , HIGH); //set pin 1 in the chain(second pin) HIGH
+
+			shifter.setPin(i , ledState); //set pin 1 in the chain(second pin) HIGH
 			shifter.write(); //send changes to
+
 		}
 	}
 
@@ -223,8 +226,8 @@ void loop() {
 	// 	nLed++;
 	// }
 	unsigned long currentMillis = millis();
-
-	if(currentMillis - previousMillis > tempo) {
+	int rnd = random(0, analogRead(3));
+	if(currentMillis - previousMillis > (tempo) ) {
 		// save the last time you blinked the LED 
 		previousMillis = currentMillis;   
 
@@ -336,7 +339,7 @@ void playNote(byte pitch, byte velocity, int duration, byte chan) {
 	 		shifter.write(); //send changes to the chain and display them
 	}
 	else{
-			shifter.setPin(5 , LOW); //set pin 1 in the chain(second pin) HIGH
+			shifter.setPin(3 , LOW); //set pin 1 in the chain(second pin) HIGH
 	 		shifter.write(); //send changes to the chain and display them
 		//-  digitalWrite (7, LOW);
 		 MIDI.sendNoteOn(pitch, velocity, chan);
@@ -383,6 +386,7 @@ void clockIn(int dig){
 	}
 	
 }
+
 void Play() {
 	
 	
@@ -394,6 +398,7 @@ void Play() {
 	 density = map(analogRead(4), 0, 1023, 0, 255);                // remap it to values similar to those in cluster configurations
 	 note = map(analogRead(2), 0, 1023, 0, 127);                // remap it to values similar to those in cluster configurations
 	 tempo = map(analogRead(0), 0, 1023, 1, 1000);                // remap it to values similar to those in cluster configurations
+	 randVar = map(analogRead(3), 0, 1023, 1, 255);                // remap it to values similar to those in cluster configurations
 	 // SDfreq = analogRead(1);                              // read snare drum density pot
 	 // SDfreq = map(SDfreq, 0, 1023, 0, 255);                // remap it to values similar to those in cluster configurations
 	 // HHfreq = analogRead(2);                              // read hi hat density pot
@@ -417,18 +422,18 @@ void Play() {
 
 	 	// playNote((0+(octave*12)), 127, 10, 1);
 	 
-	 if (D2[currentRhythm][Position]>density)playNote(note+0+(octave*12), 127, 100, 1);
-	 if (D3[currentRhythm][Position]>density)playNote(note+1+(octave*12), 127, 100, 1);
-	 if (D4[currentRhythm][Position]>density)playNote(note+2+(octave*12), 127, 100, 1);
-	 if (D5[currentRhythm][Position]>density)playNote(note+3+(octave*12), 127, 100, 1);
-	 if (D6[currentRhythm][Position]>density)playNote(note+4+(octave*12), 127, 100, 1);
-	 if (D7[currentRhythm][Position]>density)playNote(note+5+(octave*12), 127, 100, 1);
-	 if (D8[currentRhythm][Position]>density)playNote(note+6+(octave*12), 127, 100, 1);
-	 if (D9[currentRhythm][Position]>density)playNote(note+7+(octave*12), 127, 100, 1);
-	 if (D10[currentRhythm][Position]>density)playNote(note+8+(octave*12), 127, 100, 1);
-	 if (D10[currentRhythm][Position]>density)playNote(note+9+(octave*12), 127, 100, 1);
-	 if (D10[currentRhythm][Position]>density)playNote(note+10+(octave*12), 127, 100, 1);
-	 if (D10[currentRhythm][Position]>density)playNote(note+11+(octave*12), 127, 100, 1);
+	 if (D2[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+0+(octave*12), 127, 100, 1);
+	 if (D3[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+1+(octave*12), 127, 100, 1);
+	 if (D4[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+2+(octave*12), 127, 100, 1);
+	 if (D5[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+3+(octave*12), 127, 100, 1);
+	 if (D6[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+4+(octave*12), 127, 100, 1);
+	 if (D7[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+5+(octave*12), 127, 100, 1);
+	 if (D8[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+6+(octave*12), 127, 100, 1);
+	 if (D9[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+7+(octave*12), 127, 100, 1);
+	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+8+(octave*12), 127, 100, 1);
+	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+9+(octave*12), 127, 100, 1);
+	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+10+(octave*12), 127, 100, 1);
+	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+11+(octave*12), 127, 100, 1);
 		 // if (D11[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
 		 // if (D12[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
 		 // if (D13[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
