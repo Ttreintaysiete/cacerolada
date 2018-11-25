@@ -128,6 +128,7 @@ byte currentRhythm=0;
 void setup() {
 	setupMidi();                                  // set baud rate to midi
 	pinMode(tempoLED, OUTPUT);  
+	pinMode(13, INPUT);  
 
 	pinMode(4, INPUT);  
 	digitalWrite(4, HIGH);
@@ -209,44 +210,48 @@ void turnOffAll(byte on){
 }
 
 void loop() {
-	// shifter.clear(); //set all pins on the shift register chain to LOW
-	// shifter.write(); //send changes to the chain and display them
-		//clockIn(8);
-	MIDI.read();
+	if (digitalRead(13))
+	{
 	
+			
+			// shifter.clear(); //set all pins on the shift register chain to LOW
+			// shifter.write(); //send changes to the chain and display them
+				//clockIn(8);
+			MIDI.read();
+			
 
-	// count++;
-	// delay(100);
-	// nLed=nLed%6;
-	// // shifter.setPin(nLed , HIGH); //set pin 1 in the chain(second pin) HIGH
-	
-	// // shifter.write(); 
-	// if (count%6==0)
-	// {
-	// 	nLed++;
-	// }
-	unsigned long currentMillis = millis();
-	int rnd = random(0, analogRead(3));
-	if(currentMillis - previousMillis > (tempo) ) {
-		// save the last time you blinked the LED 
-		previousMillis = currentMillis;   
+			// count++;
+			// delay(100);
+			// nLed=nLed%6;
+			// // shifter.setPin(nLed , HIGH); //set pin 1 in the chain(second pin) HIGH
+			
+			// // shifter.write(); 
+			// if (count%6==0)
+			// {
+			// 	nLed++;
+			// }
+			unsigned long currentMillis = millis();
+			int rnd = random(0, analogRead(3));
+			if(currentMillis - previousMillis > (tempo) ) {
+				// save the last time you blinked the LED 
+				previousMillis = currentMillis;   
 
-		// if the LED is off turn it on and vice-versa:
-		if (ledState == LOW)
-			ledState = HIGH;
-		else
-			ledState = LOW;
+				// if the LED is off turn it on and vice-versa:
+				if (ledState == LOW)
+					ledState = HIGH;
+				else
+					ledState = LOW;
 
-		// set the LED with the ledState of the variable:
-		// digitalWrite(ledPin, ledState);
-		shifter.setPin(currentRhythm%6 , ledState); //set pin 1 in the chain(second pin) HIGH
-		shifter.write(); //send changes to the chain and display them
-		HandleClock();
-		// MIDI.sendNoteOn(36, 127, 1);
-	}
-	control();
-	noteKill();
-
+				// set the LED with the ledState of the variable:
+				// digitalWrite(ledPin, ledState);
+				shifter.setPin(currentRhythm%6 , ledState); //set pin 1 in the chain(second pin) HIGH
+				shifter.write(); //send changes to the chain and display them
+				HandleClock();
+				// MIDI.sendNoteOn(36, 127, 1);
+			}
+			control();
+			noteKill();
+		}
 }
 
 void midiLoop(){
@@ -395,7 +400,7 @@ void Play() {
 	 lastposition = Position;
 	 
 	 //BDfreq = analogRead(0);                              // read bass drum density pot
-	 density = map(analogRead(4), 0, 1023, 0, 255);                // remap it to values similar to those in cluster configurations
+	 density = map(analogRead(4), 0, 1023, 255, 0);                // remap it to values similar to those in cluster configurations
 	 note = map(analogRead(2), 0, 1023, 48, 84);                // remap it to values similar to those in cluster configurations
 	 randVar = map(analogRead(3), 0, 1023, 1, 255);                // remap it to values similar to those in cluster configurations
 	 tempo = map(analogRead(0), 0, 1023, 755-random(0, randVar*2), 20);                // remap it to values similar to those in cluster configurations
@@ -432,9 +437,10 @@ void Play() {
 	 if (D8[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+6+(octave*12), 127, 100, 1);
 	 if (D9[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+7+(octave*12), 127, 100, 1);
 	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+8+(octave*12), 127, 100, 1);
-	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+9+(octave*12), 127, 100, 1);
-	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+10+(octave*12), 127, 100, 1);
-	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+11+(octave*12), 127, 100, 1);
+	 if (D11[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+9+(octave*12), 127, 100, 1);
+	 if (D2[currentRhythm][(Position+2)%16]>(density + random(0, randVar)) )playNote((note)+10+(octave*12), 127, 100, 1);
+	 if (D3[currentRhythm][(Position+3)%16]>(density + random(0, randVar)) )playNote((note)+11+(octave*12), 127, 100, 1);
+	 if (D4[currentRhythm][(Position+4)%16]>(density + random(0, randVar)) )playNote((note)+12+(octave*12), 127, 100, 1);
 		 // if (D11[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
 		 // if (D12[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
 		 // if (D13[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
