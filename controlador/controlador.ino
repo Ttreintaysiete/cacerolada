@@ -84,11 +84,13 @@ long _posCounter = 0;
 byte clockInState = LOW ;
 long lastClock = millis();
 byte debounce= 5; 
-Bounce divdown= Bounce( ); 
-Bounce divup= Bounce( ); 
+Bounce ryhthm0= Bounce( ); 
+Bounce ryhthm1= Bounce( ); 
+Bounce ryhthm2= Bounce( ); 
+Bounce ryhthm3= Bounce( ); 
+Bounce ryhthm4= Bounce( ); 
+Bounce ryhthm5= Bounce( ); 
 
-Bounce notedown= Bounce( ); 
-Bounce noteup= Bounce( ); 
 
 
 int BDfreq = 0;
@@ -125,41 +127,82 @@ byte currentRhythm=0;
 void setup() {
 	setupMidi();                                  // set baud rate to midi
 	pinMode(tempoLED, OUTPUT);  
-	noteup.attach(2);
-	noteup.interval(5); // interval in ms
-	divdown.attach(3);
-	divdown.interval(5); // interval in ms
-	divup.attach(4);
-	divup.interval(5); // interval in ms
-	notedown.attach(5);
-	notedown.interval(5); // interval in ms
-	shifter.setPin(0 , HIGH); //set pin 1 in the chain(second pin) HIGH
-	shifter.write(); //send changes to the chain and display them
 
+	pinMode(4, INPUT);  
+	digitalWrite(4, HIGH);
+	pinMode(5, INPUT);  
+	digitalWrite(5, HIGH);
+	pinMode(6, INPUT);  
+	digitalWrite(6, HIGH);
+	pinMode(7, INPUT);  
+	digitalWrite(7, HIGH);
+	pinMode(8, INPUT);  
+	digitalWrite(8, HIGH);
+	pinMode(9, INPUT);  
+	digitalWrite(9, HIGH);
+	ryhthm0.attach(4);
+	ryhthm0.interval(debounce); // interval in ms
+	ryhthm1.attach(5);
+	ryhthm1.interval(debounce); // interval in ms
+	ryhthm2.attach(6);
+	ryhthm2.interval(debounce); // interval in ms
+	ryhthm3.attach(7);
+	ryhthm3.interval(debounce); // interval in ms
+	ryhthm4.attach(9);
+	ryhthm4.interval(debounce); // interval in ms
+	ryhthm5.attach(8);
+	ryhthm5.interval(debounce); // interval in ms
 }
 
 void control(){
+	ryhthm0.update();
+	ryhthm1.update();
+	ryhthm2.update();
+	ryhthm3.update();
+	ryhthm4.update();
+	ryhthm5.update();
+	if (ryhthm0.fell()) { 
+		currentRhythm=0;
+	}
+		if (ryhthm1.fell()) { 
+		currentRhythm=1;
+	}
+		if (ryhthm2.fell()) { 
+		currentRhythm=2;
+	}
+		if (ryhthm3.fell()) { 
+		currentRhythm=3;
+	}
+		if (ryhthm4.fell()) { 
+		currentRhythm=4;
+	}
+		if (ryhthm5.fell()) { 
+		currentRhythm=5;
+	}
+	
+		turnOffAll(currentRhythm);		
+	// if (ryhthm0.update()) { 
+	// 	if (ryhthm0.read() == HIGH){
+	// 		currentRhythm = 0;
+	// 		shifter.setPin(1 , ledState); //set pin 1 in the chain(second pin) HIGH
+	// 		shifter.write(); //send changes to
+	// 	}
+	// }
+	
+}
+void turnOffAll(byte on){
+	for (int i = 0; i < 6; ++i)
+	{
+		if (i!=on)
+		{
+			shifter.setPin(i , LOW); //set pin 1 in the chain(second pin) HIGH
+			shifter.write(); //send changes to
+		}else{
+			shifter.setPin(i , HIGH); //set pin 1 in the chain(second pin) HIGH
+			shifter.write(); //send changes to
+		}
+	}
 
-	if (divup.update()) { 
-		if (divup.read() == HIGH){
-			division=(division+2)%16;
-		}
-	}
-	if (divdown.update()) { 
-		if (divdown.read() == HIGH){
-			if(division>2){division-=2;}
-		}
-	}
-	if (noteup.update()) { 
-		if (noteup.read() == HIGH){
-			note=(note+3)%64;
-		}
-	}
-	if (notedown.update()) { 
-		if (notedown.read() == HIGH){
-			if(note>=3){note-=3;}
-		}
-	}
 }
 
 void loop() {
@@ -193,7 +236,7 @@ void loop() {
 
 		// set the LED with the ledState of the variable:
 		// digitalWrite(ledPin, ledState);
-		shifter.setPin(0 , ledState); //set pin 1 in the chain(second pin) HIGH
+		shifter.setPin(currentRhythm%6 , ledState); //set pin 1 in the chain(second pin) HIGH
 		shifter.write(); //send changes to the chain and display them
 		HandleClock();
 		// MIDI.sendNoteOn(36, 127, 1);
@@ -308,18 +351,18 @@ void setupMidi(){
 	MIDI.setHandleClock ( HandleClock );
 	MIDI.setHandleStart(reset);
 	MIDI.setHandleNoteOn(noteOn);
-	MIDI.setHandleNoteOff(noteOff);
+	// MIDI.setHandleNoteOff(noteOff);
 }
 
-void noteOn(){
+void noteOn(byte channel, byte note, byte velocity ){
 	 shifter.setPin(0 , HIGH); //set pin 1 in the chain(second pin) HIGH
 	 shifter.write(); //send changes to the chain and display them
 	}
 
-void noteOff(){
-	shifter.setPin(0 , LOW); //set pin 1 in the chain(second pin) HIGH
-	shifter.write(); //send changes to the chain and display them
-}
+// void noteOff(){
+// 	shifter.setPin(0 , LOW); //set pin 1 in the chain(second pin) HIGH
+// 	shifter.write(); //send changes to the chain and display them
+// }
 
 void clockIn(int dig){
 	
