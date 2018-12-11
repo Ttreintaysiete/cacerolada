@@ -403,7 +403,8 @@ void Play() {
 	 density = map(analogRead(4), 0, 1023, 255, 0);                // remap it to values similar to those in cluster configurations
 	 note = map(analogRead(2), 0, 1023, 48, 84);                // remap it to values similar to those in cluster configurations
 	 randVar = map(analogRead(3), 0, 1023, 1, 255);                // remap it to values similar to those in cluster configurations
-	 tempo = map(analogRead(0), 0, 1023, 755-random(0, randVar*2), 20);                // remap it to values similar to those in cluster configurations
+	 int randNote = map(analogRead(3), 0, 1023, 1, 6);                // remap it to values similar to those in cluster configurations
+	 tempo = map(analogRead(0), 0, 1023, 755-random(0, randVar), 10);                // remap it to values similar to those in cluster configurations
 
 	 // SDfreq = analogRead(1);                              // read snare drum density pot
 	 // SDfreq = map(SDfreq, 0, 1023, 0, 255);                // remap it to values similar to those in cluster configurations
@@ -428,19 +429,19 @@ void Play() {
 
 	 	// playNote((0+(octave*12)), 127, 10, 1);
 	 
-	 if (D2[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+0+(octave*12), 127, 100, 1);
-	 if (D3[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+1+(octave*12), 127, 100, 1);
-	 if (D4[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+2+(octave*12), 127, 100, 1);
-	 if (D5[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+3+(octave*12), 127, 100, 1);
-	 if (D6[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+4+(octave*12), 127, 100, 1);
-	 if (D7[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+5+(octave*12), 127, 100, 1);
-	 if (D8[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+6+(octave*12), 127, 100, 1);
-	 if (D9[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+7+(octave*12), 127, 100, 1);
-	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+8+(octave*12), 127, 100, 1);
-	 if (D11[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+9+(octave*12), 127, 100, 1);
-	 if (D2[currentRhythm][(Position+2)%16]>(density + random(0, randVar)) )playNote((note)+10+(octave*12), 127, 100, 1);
-	 if (D3[currentRhythm][(Position+3)%16]>(density + random(0, randVar)) )playNote((note)+11+(octave*12), 127, 100, 1);
-	 if (D4[currentRhythm][(Position+4)%16]>(density + random(0, randVar)) )playNote((note)+12+(octave*12), 127, 100, 1);
+	 if (D2[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+0+(randNote), 127, 20, 1);
+	 if (D3[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+1+(randNote), 127, 20, 1);
+	 if (D4[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+2+(randNote), 127, 20, 1);
+	 if (D5[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+3+(randNote), 127, 20, 1);
+	 if (D6[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+4+(randNote), 127, 20, 1);
+	 if (D7[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+5+(randNote), 127, 20, 1);
+	 if (D8[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+6+(randNote), 127, 20, 1);
+	 if (D9[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+7+(randNote), 127, 20, 1);
+	 if (D10[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+8+(randNote), 127, 20, 1);
+	 if (D11[currentRhythm][Position]>(density + random(0, randVar)) )playNote((note)+9+(randNote), 127, 20, 1);
+	 if (D5[currentRhythm][(Position+2)%16]>(density + random(0, randVar)) )playNote((note)+10+(randNote), 127, 20, 1);
+	 if (D6[currentRhythm][(Position+3)%16]>(density + random(0, randVar)) )playNote((note)+11+(randNote), 127, 20, 1);
+	 if (D7[currentRhythm][(Position+4)%16]>(density + random(0, randVar)) )playNote((note)+12+(randNote), 127, 20, 1);
 		 // if (D11[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
 		 // if (D12[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
 		 // if (D13[currentRhythm][Position]>density)playNote(42+note, 127, 1000, 10);
