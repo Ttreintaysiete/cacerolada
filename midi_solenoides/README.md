@@ -10,6 +10,8 @@ One octave for soleoids
 
 #
 
+- [BOM](https://docs.google.com/spreadsheets/d/1d-w44R-xqymzVt59jLZTZCNicCAste95suxFi2tH_vA/edit?usp=sharing).
+
 - [Mouser project](https://www.mouser.es/ProjectManager/ProjectDetail.aspx?State=EDIT&ProjectGUID=a06f9f10-f855-447a-83ec-cde591ade13b).
 
 
