@@ -14,4 +14,6 @@ One octave arduino based midi to soleoid.
 
 - [Mouser project](https://www.mouser.es/ProjectManager/ProjectDetail.aspx?State=EDIT&ProjectGUID=a06f9f10-f855-447a-83ec-cde591ade13b).
 
+#
+![Automáticas](https://github.com/Ttreintaysiete/cacerolada/blob/master/midi_solenoides/documentation/midi%20solenoids.JPG)
 
