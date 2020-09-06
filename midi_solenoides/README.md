@@ -3,10 +3,12 @@
 One octave arduino based midi to soleoid. 
 
 ![pcb](https://github.com/Ttreintaysiete/cacerolada/blob/master/midi_solenoides/hardware/Pcb.png)
+PCB
 
 #
 
 ![schematic](https://github.com/Ttreintaysiete/cacerolada/blob/master/midi_solenoides/hardware/midi_solenoids_schematic.png)
+Schematic
 
 #
 
