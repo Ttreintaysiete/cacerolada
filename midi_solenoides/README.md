@@ -20,7 +20,7 @@ Schematic
 ![Automáticas](https://github.com/Ttreintaysiete/cacerolada/blob/master/midi_solenoides/documentation/midi%20solenoids.JPG)
 
 #
-![Manual](https://github.com/Ttreintaysiete/cacerolada/blob/master/midi_solenoides/documentation/midi-solenoides_manual.pdf)
+![Manual](https://github.com/Ttreintaysiete/cacerolada/blob/master/midi_solenoides/documentation/midi-solenoides_manual.jpg)
 
 
 
